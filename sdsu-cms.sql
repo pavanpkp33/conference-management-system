@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 21, 2018 at 02:11 AM
+-- Generation Time: Feb 23, 2018 at 03:53 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.30
 
@@ -34,7 +34,7 @@ CREATE TABLE `assignment` (
   `sid` varchar(36) NOT NULL,
   `cid` char(36) NOT NULL,
   `assigned` varchar(1) NOT NULL,
-  `valid` varchar(1) NOT NULL
+  `valid` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -52,7 +52,7 @@ CREATE TABLE `conference` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `web_link` varchar(100) NOT NULL,
-  `valid` varchar(1) NOT NULL
+  `valid` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -67,7 +67,7 @@ CREATE TABLE `conf_sub_users` (
   `uid` varchar(36) NOT NULL,
   `is_corresponding_user` varchar(1) NOT NULL,
   `last_updated` datetime NOT NULL,
-  `valid` varchar(1) NOT NULL
+  `valid` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -82,7 +82,7 @@ CREATE TABLE `files` (
   `file_url` varchar(50) NOT NULL,
   `uploaded_time` datetime NOT NULL,
   `uploaded_by_user` varchar(36) NOT NULL,
-  `valid` varchar(1) NOT NULL
+  `valid` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -150,7 +150,7 @@ CREATE TABLE `notifications` (
   `nid` char(36) NOT NULL,
   `title` text NOT NULL,
   `body` text NOT NULL,
-  `valid` varchar(1) NOT NULL,
+  `valid` varchar(1) NOT NULL DEFAULT 'Y',
   `sent_on` datetime NOT NULL,
   `sender_uid` varchar(36) NOT NULL,
   `receiver_uid` varchar(36) NOT NULL,
@@ -174,8 +174,8 @@ CREATE TABLE `reviews` (
   `confidence_score` int(10) NOT NULL,
   `last_updated` datetime NOT NULL,
   `edit_reason` varchar(200) NOT NULL,
-  `is_edited` varchar(1) NOT NULL,
-  `valid` varchar(1) NOT NULL
+  `is_edited` varchar(1) NOT NULL DEFAULT 'N',
+  `valid` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -194,7 +194,7 @@ CREATE TABLE `submissions` (
   `last_updated` datetime NOT NULL,
   `decision_status` int(10) NOT NULL,
   `is_paid` varchar(1) NOT NULL,
-  `valid` varchar(1) NOT NULL
+  `valid` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -207,7 +207,7 @@ CREATE TABLE `tracks` (
   `tid` bigint(20) NOT NULL,
   `tname` varchar(100) NOT NULL,
   `cid` varchar(36) NOT NULL,
-  `valid` varchar(1) NOT NULL
+  `valid` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -220,12 +220,12 @@ CREATE TABLE `users` (
   `id` varchar(36) NOT NULL,
   `first_name` varchar(100) NOT NULL,
   `last_name` varchar(100) NOT NULL,
-  `middle_name` varchar(100) NOT NULL,
+  `middle_name` varchar(100) DEFAULT NULL,
   `title` varchar(20) NOT NULL,
   `email` varchar(80) NOT NULL,
   `password` varchar(68) NOT NULL,
   `address1` varchar(100) NOT NULL,
-  `address2` varchar(100) NOT NULL,
+  `address2` varchar(100) DEFAULT NULL,
   `city` varchar(50) NOT NULL,
   `state` varchar(50) NOT NULL,
   `country` varchar(50) NOT NULL,
@@ -234,8 +234,16 @@ CREATE TABLE `users` (
   `department` varchar(100) NOT NULL,
   `dob` date NOT NULL,
   `is_participating` varchar(1) NOT NULL,
-  `valid` varchar(1) NOT NULL
+  `valid` varchar(1) NOT NULL DEFAULT 'Y',
+  `is_active` varchar(1) NOT NULL DEFAULT 'N'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `middle_name`, `title`, `email`, `password`, `address1`, `address2`, `city`, `state`, `country`, `zipcode`, `affiliation`, `department`, `dob`, `is_participating`, `valid`, `is_active`) VALUES
+('abcd-asd-123-d', 'Pavan', 'Kumar', 'Pasala', 'Mr', 'pavanpkp33@gmail.com', '23420394JSDF', '6560', 'Mont', 'San Diego', 'CA', 'USA', 92115, 'SDSU', 'CS', '2018-02-14', 'Y', 'Y', 'N');
 
 --
 -- Indexes for dumped tables
@@ -261,7 +269,9 @@ ALTER TABLE `conference`
 -- Indexes for table `conf_sub_users`
 --
 ALTER TABLE `conf_sub_users`
-  ADD KEY `cid` (`cid`,`sid`,`uid`);
+  ADD KEY `cid` (`cid`,`sid`,`uid`),
+  ADD KEY `fk_conf_sub_users_sid` (`sid`),
+  ADD KEY `fk_conf_sub_users_uid` (`uid`);
 
 --
 -- Indexes for table `files`
@@ -281,7 +291,8 @@ ALTER TABLE `file_type`
 -- Indexes for table `forgot_password`
 --
 ALTER TABLE `forgot_password`
-  ADD PRIMARY KEY (`req_id`);
+  ADD PRIMARY KEY (`req_id`),
+  ADD KEY `fk_fpwd_uid` (`uid`);
 
 --
 -- Indexes for table `notifications`
@@ -363,11 +374,25 @@ ALTER TABLE `conference`
   ADD CONSTRAINT `FK_UID` FOREIGN KEY (`chair_uid`) REFERENCES `users` (`id`);
 
 --
+-- Constraints for table `conf_sub_users`
+--
+ALTER TABLE `conf_sub_users`
+  ADD CONSTRAINT `fk_conf_sub_users_cid` FOREIGN KEY (`cid`) REFERENCES `conference` (`cid`),
+  ADD CONSTRAINT `fk_conf_sub_users_sid` FOREIGN KEY (`sid`) REFERENCES `submissions` (`sid`),
+  ADD CONSTRAINT `fk_conf_sub_users_uid` FOREIGN KEY (`uid`) REFERENCES `users` (`id`);
+
+--
 -- Constraints for table `files`
 --
 ALTER TABLE `files`
   ADD CONSTRAINT `FK_files` FOREIGN KEY (`uploaded_by_user`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `FK_filetype` FOREIGN KEY (`type_id`) REFERENCES `file_type` (`type_id`);
+
+--
+-- Constraints for table `forgot_password`
+--
+ALTER TABLE `forgot_password`
+  ADD CONSTRAINT `fk_fpwd_uid` FOREIGN KEY (`uid`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `notifications`
