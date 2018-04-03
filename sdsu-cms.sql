@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 23, 2018 at 03:53 AM
+-- Generation Time: Apr 03, 2018 at 06:15 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.30
 
@@ -147,7 +147,7 @@ INSERT INTO `keywords` (`sid`, `keyword`, `valid`) VALUES
 --
 
 CREATE TABLE `notifications` (
-  `nid` char(36) NOT NULL,
+  `notification_id` char(36) NOT NULL,
   `title` text NOT NULL,
   `body` text NOT NULL,
   `valid` varchar(1) NOT NULL DEFAULT 'Y',
@@ -155,7 +155,11 @@ CREATE TABLE `notifications` (
   `sender_uid` varchar(36) NOT NULL,
   `receiver_uid` varchar(36) NOT NULL,
   `is_broadcast` varchar(1) NOT NULL DEFAULT 'N',
-  `cid` varchar(36) NOT NULL
+  `cid` varchar(36) NOT NULL,
+  `priority` varchar(20) NOT NULL,
+  `has_seen` varchar(1) NOT NULL DEFAULT 'N',
+  `notification_type` varchar(20) NOT NULL,
+  `sender_name` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -243,7 +247,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `middle_name`, `title`, `email`, `password`, `address1`, `address2`, `city`, `state`, `country`, `zipcode`, `affiliation`, `department`, `dob`, `is_participating`, `valid`, `is_active`) VALUES
-('abcd-asd-123-d', 'Pavan', 'Kumar', 'Pasala', 'Mr', 'pavanpkp33@gmail.com', '23420394JSDF', '6560', 'Mont', 'San Diego', 'CA', 'USA', 92115, 'SDSU', 'CS', '2018-02-14', 'Y', 'Y', 'N');
+('fdfcd5a7-6b54-442c-9832-47e8b3a760ec', 'Pavankumar', 'Pasala', 'MNU', 'Mr', 'pavanpkp33@gmail.com', '$2a$10$A0rumvcq9Dk5rJLxO39qUuZPRYn5SmzNseysdi8Ajm1X75NF7zbim', 'asda', 'asdsfsdfsd', 'SAN', 'CA', 'US', 92115, 'SDSU', 'CS', '1992-04-27', 'N', 'Y', 'N');
 
 --
 -- Indexes for dumped tables
@@ -298,7 +302,7 @@ ALTER TABLE `forgot_password`
 -- Indexes for table `notifications`
 --
 ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`nid`),
+  ADD PRIMARY KEY (`notification_id`),
   ADD KEY `fk_noti_sender_uid` (`sender_uid`),
   ADD KEY `fk_noti_receiver_uid` (`receiver_uid`),
   ADD KEY `fk_noti_cid` (`cid`);
