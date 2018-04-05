@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 03, 2018 at 06:15 AM
+-- Generation Time: Apr 05, 2018 at 04:52 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.30
 
@@ -52,8 +52,17 @@ CREATE TABLE `conference` (
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
   `web_link` varchar(100) NOT NULL,
-  `valid` varchar(1) NOT NULL DEFAULT 'Y'
+  `valid` varchar(1) NOT NULL DEFAULT 'Y',
+  `contact` varchar(100) DEFAULT NULL,
+  `about` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `conference`
+--
+
+INSERT INTO `conference` (`cid`, `cname`, `caccronym`, `cyear`, `chair_uid`, `start_date`, `end_date`, `web_link`, `valid`, `contact`, `about`) VALUES
+('SDSU-CMS', 'SDSU-CMS', 'SDSU-CMS', '2018-01-01', 'SDSU-CMS-1', '2018-04-01', '2018-04-02', '', 'Y', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -153,7 +162,7 @@ CREATE TABLE `notifications` (
   `valid` varchar(1) NOT NULL DEFAULT 'Y',
   `sent_on` datetime NOT NULL,
   `sender_uid` varchar(36) NOT NULL,
-  `receiver_uid` varchar(36) NOT NULL,
+  `receiver_email` varchar(100) NOT NULL,
   `is_broadcast` varchar(1) NOT NULL DEFAULT 'N',
   `cid` varchar(36) NOT NULL,
   `priority` varchar(20) NOT NULL,
@@ -247,7 +256,28 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `middle_name`, `title`, `email`, `password`, `address1`, `address2`, `city`, `state`, `country`, `zipcode`, `affiliation`, `department`, `dob`, `is_participating`, `valid`, `is_active`) VALUES
-('fdfcd5a7-6b54-442c-9832-47e8b3a760ec', 'Pavankumar', 'Pasala', 'MNU', 'Mr', 'pavanpkp33@gmail.com', '$2a$10$A0rumvcq9Dk5rJLxO39qUuZPRYn5SmzNseysdi8Ajm1X75NF7zbim', 'asda', 'asdsfsdfsd', 'SAN', 'CA', 'US', 92115, 'SDSU', 'CS', '1992-04-27', 'N', 'Y', 'N');
+('SDSU-CMS-1', 'SDSU-CMS ADMIN', 'SDSU-CMS ADMIN', 'SDSU-CMS ADMIN', 'Mr', 'noreply.sdsucms@gmail.com', '$2a$10$CvAT1AWZ7F2mxOLl6a0IaOrRajLOTUQlrNPlxzIXYyME5DE.ciAFm', 'SDSU', 'SDSU', 'San Diego', 'CA', 'US', 92115, 'SDSU', 'CS', '1992-04-27', 'N', 'Y', 'Y');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_activation`
+--
+
+CREATE TABLE `user_activation` (
+  `id` varchar(36) NOT NULL,
+  `user_id` varchar(36) NOT NULL,
+  `token` varchar(500) NOT NULL,
+  `valid` varchar(1) NOT NULL DEFAULT 'Y'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user_activation`
+--
+
+INSERT INTO `user_activation` (`id`, `user_id`, `token`, `valid`) VALUES
+('3f9d797d-d56b-45c1-b98e-24acc4d6ad20', '0ef89c08-d869-4aae-9d49-1750edc94e33', 'M2Y5ZDc5N2QtZDU2Yi00NWMxLWI5OGUtMjRhY2M0ZDZhZDIwfjBlZjg5YzA4LWQ4NjktNGFhZS05ZDQ5LTE3NTBlZGM5NGUzMw==', 'Y'),
+('52cd7ea9-b71b-4d5f-9b30-d13def8b8e98', '48869e32-e0ab-4394-a42c-b455adbb5a20', 'NTJjZDdlYTktYjcxYi00ZDVmLTliMzAtZDEzZGVmOGI4ZTk4fjQ4ODY5ZTMyLWUwYWItNDM5NC1hNDJjLWI0NTVhZGJiNWEyMA==', 'Y');
 
 --
 -- Indexes for dumped tables
@@ -304,7 +334,6 @@ ALTER TABLE `forgot_password`
 ALTER TABLE `notifications`
   ADD PRIMARY KEY (`notification_id`),
   ADD KEY `fk_noti_sender_uid` (`sender_uid`),
-  ADD KEY `fk_noti_receiver_uid` (`receiver_uid`),
   ADD KEY `fk_noti_cid` (`cid`);
 
 --
@@ -336,6 +365,12 @@ ALTER TABLE `tracks`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `user_activation`
+--
+ALTER TABLE `user_activation`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -403,7 +438,6 @@ ALTER TABLE `forgot_password`
 --
 ALTER TABLE `notifications`
   ADD CONSTRAINT `fk_noti_cid` FOREIGN KEY (`cid`) REFERENCES `conference` (`cid`),
-  ADD CONSTRAINT `fk_noti_receiver_uid` FOREIGN KEY (`receiver_uid`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `fk_noti_sender_uid` FOREIGN KEY (`sender_uid`) REFERENCES `users` (`id`);
 
 --
