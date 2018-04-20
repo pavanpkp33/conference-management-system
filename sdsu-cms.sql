@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 12, 2018 at 05:40 AM
+-- Generation Time: Apr 20, 2018 at 04:19 AM
 -- Server version: 5.7.21
 -- PHP Version: 5.6.30
 
@@ -29,13 +29,20 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `assignment` (
-  `assignment_id` int(11) NOT NULL,
+  `assignment_id` varchar(36) NOT NULL,
   `reviewer_id` varchar(36) NOT NULL,
   `sid` varchar(36) NOT NULL,
   `cid` char(36) NOT NULL,
-  `assigned` varchar(1) NOT NULL,
   `valid` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `assignment`
+--
+
+INSERT INTO `assignment` (`assignment_id`, `reviewer_id`, `sid`, `cid`, `valid`) VALUES
+('590191fc-3f72-4d6a-b66b-593ea6754c46', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', '0c6bd989-3974-4887-876e-5faac833a913', 'fe512143-4794-4fd1-a7ce-63f949a3c73a', 'N'),
+('f921fc33-8679-4195-9451-034fb22fe780', '73ea1e3a-4939-4406-bdca-0b39de674484', '0c6bd989-3974-4887-876e-5faac833a913', 'fe512143-4794-4fd1-a7ce-63f949a3c73a', 'N');
 
 -- --------------------------------------------------------
 
@@ -70,7 +77,7 @@ INSERT INTO `conference` (`cid`, `cname`, `caccronym`, `cyear`, `chair_uid`, `st
 ('3e38f19b-c661-469a-ab61-0836ea771588', 'Conference for Effective Home Management', 'cehm-2018', 2019, '3d5baca6-845c-4d90-9501-49745b50909f', '2018-05-29', '2018-06-12', 'http://localhost:80/cfan', 'Y', 'venkatvyshakbr@gmail.com', 'test conference is this me worried kthxbye', 'http://', 'Ma home', 'San Diego', 'US', 'N'),
 ('a94a5a5d-c4d5-46f5-a1fa-025b02c6139d', 'Conference for Effective Business Management', 'CEBM-2018', 2018, '3d5baca6-845c-4d90-9501-49745b50909f', '2018-05-29', '2018-06-12', 'http://localhost:80/cfan', 'Y', 'venkatvyshakbr@gmail.com', 'test conference is this me worried kthxbye', 'http://', 'Hepner hall', 'San Diego', 'US', 'N'),
 ('abfc2f94-f62c-4e4a-802f-d8ef7822ddb4', 'Conference for Artificial and Neural Networks 2018', 'cfan-2018', 2018, '73ea1e3a-4939-4406-bdca-0b39de674484', '2018-05-29', '2018-06-12', 'http://localhost:80/cfan', 'Y', 'pavanpkp33@gmail.com', 'test conference is this me worried kthxbye', 'http://', 'Hepner hall', 'San Diego', 'US', 'N'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', 'Conference for Test', 'test-2018', 2018, '3d5baca6-845c-4d90-9501-49745b50909f', '2018-05-29', '2018-06-12', 'http://localhost:80/cfan', 'Y', 'venkatvyshakbr@gmail.com', 'test conference  test', 'http://', 'Hepner hall', 'San Diego', 'US', 'N'),
+('fe512143-4794-4fd1-a7ce-63f949a3c73a', 'Conference for Test', 'test-2018', 2018, '3d5baca6-845c-4d90-9501-49745b50909f', '2018-05-29', '2018-06-12', 'http://localhost:80/cfan', 'N', 'venkatvyshakbr@gmail.com', 'test conference  test', 'http://', 'Hepner hall', 'San Diego', 'US', 'N'),
 ('SDSU-CMS', 'SDSU-CMS', 'SDSU-CMS', 2018, 'SDSU-CMS-1', '2018-04-01', '2018-04-02', '', 'Y', NULL, NULL, NULL, '', '', '', 'N');
 
 -- --------------------------------------------------------
@@ -91,15 +98,17 @@ CREATE TABLE `conf_roles` (
 --
 
 INSERT INTO `conf_roles` (`cid`, `uid`, `role_id`, `valid`) VALUES
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '73ea1e3a-4939-4406-bdca-0b39de674484', 'ROLE_AUTHOR', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'ROLE_AUTHOR', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '8fca76c4-befa-416f-9af3-66d203170ab6', 'ROLE_AUTHOR', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '73ea1e3a-4939-4406-bdca-0b39de674484', 'ROLE_AUTHOR', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'ROLE_AUTHOR', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '8fca76c4-befa-416f-9af3-66d203170ab6', 'ROLE_AUTHOR', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '73ea1e3a-4939-4406-bdca-0b39de674484', 'ROLE_AUTHOR', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'ROLE_AUTHOR', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '8fca76c4-befa-416f-9af3-66d203170ab6', 'ROLE_AUTHOR', 'Y');
+('3e38f19b-c661-469a-ab61-0836ea771588', '73ea1e3a-4939-4406-bdca-0b39de674484', 'ROLE_REVIEWER', 'Y'),
+('3e38f19b-c661-469a-ab61-0836ea771588', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'ROLE_AUTHOR', 'Y'),
+('3e38f19b-c661-469a-ab61-0836ea771588', '8fca76c4-befa-416f-9af3-66d203170ab6', 'ROLE_AUTHOR', 'Y'),
+('3e38f19b-c661-469a-ab61-0836ea771588', '73ea1e3a-4939-4406-bdca-0b39de674484', 'ROLE_REVIEWER', 'Y'),
+('3e38f19b-c661-469a-ab61-0836ea771588', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'ROLE_AUTHOR', 'Y'),
+('3e38f19b-c661-469a-ab61-0836ea771588', '8fca76c4-befa-416f-9af3-66d203170ab6', 'ROLE_AUTHOR', 'Y'),
+('3e38f19b-c661-469a-ab61-0836ea771588', '73ea1e3a-4939-4406-bdca-0b39de674484', 'ROLE_REVIEWER', 'Y'),
+('3e38f19b-c661-469a-ab61-0836ea771588', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'ROLE_AUTHOR', 'Y'),
+('3e38f19b-c661-469a-ab61-0836ea771588', '8fca76c4-befa-416f-9af3-66d203170ab6', 'ROLE_AUTHOR', 'Y'),
+('3e38f19b-c661-469a-ab61-0836ea771588', '73ea1e3a-4939-4406-bdca-0b39de674484', 'ROLE_CHAIR', 'Y'),
+('abfc2f94-f62c-4e4a-802f-d8ef7822ddb4', '73ea1e3a-4939-4406-bdca-0b39de674484', 'ROLE_AUTHOR', 'Y');
 
 -- --------------------------------------------------------
 
@@ -121,15 +130,15 @@ CREATE TABLE `conf_sub_users` (
 --
 
 INSERT INTO `conf_sub_users` (`cid`, `sid`, `uid`, `is_corresponding_user`, `last_updated`, `valid`) VALUES
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '0ffc6fe0-6185-4ba0-844b-be14a67a2fc0', '73ea1e3a-4939-4406-bdca-0b39de674484', 'Y', '2018-04-11 16:07:53', 'Y'),
+('fe512143-4794-4fd1-a7ce-63f949a3c73a', '0ffc6fe0-6185-4ba0-844b-be14a67a2fc0', '73ea1e3a-4939-4406-bdca-0b39de674484', 'Y', '2018-04-15 21:40:00', 'N'),
 ('fe512143-4794-4fd1-a7ce-63f949a3c73a', '0ffc6fe0-6185-4ba0-844b-be14a67a2fc0', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'Y', '2018-04-11 16:07:53', 'Y'),
 ('fe512143-4794-4fd1-a7ce-63f949a3c73a', '0ffc6fe0-6185-4ba0-844b-be14a67a2fc0', '8fca76c4-befa-416f-9af3-66d203170ab6', 'N', '2018-04-11 16:07:55', 'Y'),
 ('fe512143-4794-4fd1-a7ce-63f949a3c73a', '4154e5a4-b677-42eb-951d-f5557b0a769b', '73ea1e3a-4939-4406-bdca-0b39de674484', 'Y', '2018-04-11 16:08:10', 'Y'),
 ('fe512143-4794-4fd1-a7ce-63f949a3c73a', '4154e5a4-b677-42eb-951d-f5557b0a769b', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'Y', '2018-04-11 16:08:10', 'Y'),
 ('fe512143-4794-4fd1-a7ce-63f949a3c73a', '4154e5a4-b677-42eb-951d-f5557b0a769b', '8fca76c4-befa-416f-9af3-66d203170ab6', 'N', '2018-04-11 16:08:10', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '0c6bd989-3974-4887-876e-5faac833a913', '73ea1e3a-4939-4406-bdca-0b39de674484', 'Y', '2018-04-11 16:15:07', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '0c6bd989-3974-4887-876e-5faac833a913', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'Y', '2018-04-11 16:15:07', 'Y'),
-('fe512143-4794-4fd1-a7ce-63f949a3c73a', '0c6bd989-3974-4887-876e-5faac833a913', '8fca76c4-befa-416f-9af3-66d203170ab6', 'N', '2018-04-11 16:15:07', 'Y');
+('fe512143-4794-4fd1-a7ce-63f949a3c73a', '0c6bd989-3974-4887-876e-5faac833a913', '73ea1e3a-4939-4406-bdca-0b39de674484', 'Y', '2018-04-11 16:15:07', 'N'),
+('fe512143-4794-4fd1-a7ce-63f949a3c73a', '0c6bd989-3974-4887-876e-5faac833a913', '538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'Y', '2018-04-11 16:15:07', 'N'),
+('fe512143-4794-4fd1-a7ce-63f949a3c73a', '0c6bd989-3974-4887-876e-5faac833a913', '8fca76c4-befa-416f-9af3-66d203170ab6', 'N', '2018-04-11 16:15:07', 'N');
 
 -- --------------------------------------------------------
 
@@ -152,7 +161,7 @@ CREATE TABLE `files` (
 --
 
 INSERT INTO `files` (`file_id`, `type_id`, `file_url`, `uploaded_time`, `uploaded_by_user`, `valid`, `sid`) VALUES
-('eacad012-d9f9-489e-b041-d481f3266c1b', 1, '0c6bd989-3974-4887-876e-5faac833a913_draft.pdf', '2018-04-12 05:33:55', '73ea1e3a-4939-4406-bdca-0b39de674484', 'Y', '0c6bd989-3974-4887-876e-5faac833a913');
+('eacad012-d9f9-489e-b041-d481f3266c1b', 1, '0c6bd989-3974-4887-876e-5faac833a913_draft.pdf', '2018-04-12 05:33:55', '73ea1e3a-4939-4406-bdca-0b39de674484', 'N', '0c6bd989-3974-4887-876e-5faac833a913');
 
 -- --------------------------------------------------------
 
@@ -302,11 +311,17 @@ CREATE TABLE `reviews` (
   `score` int(10) NOT NULL,
   `message_to_chair` longtext NOT NULL,
   `confidence_score` int(10) NOT NULL,
-  `last_updated` datetime NOT NULL,
-  `edit_reason` text NOT NULL,
-  `is_edited` varchar(1) NOT NULL DEFAULT 'N',
+  `last_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `publish` varchar(1) NOT NULL DEFAULT 'N',
   `valid` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `reviews`
+--
+
+INSERT INTO `reviews` (`rid`, `sid`, `uid`, `review`, `score`, `message_to_chair`, `confidence_score`, `last_updated`, `publish`, `valid`) VALUES
+('729e435c-39a2-4017-b745-249eff7502a4', '0ffc6fe0-6185-4ba0-844b-be14a67a2fc0', '73ea1e3a-4939-4406-bdca-0b39de674484', 'This paper is OK and is edited', 0, 'Hi Dear chair ', 0, '2018-04-15 21:11:16', 'N', 'N');
 
 -- --------------------------------------------------------
 
@@ -356,8 +371,8 @@ CREATE TABLE `submissions` (
 --
 
 INSERT INTO `submissions` (`sid`, `title`, `submission_date`, `submit_author_id`, `track_id`, `abstract_text`, `last_updated`, `decision_status`, `is_paid`, `valid`, `group_app`, `cid`) VALUES
-('0c6bd989-3974-4887-876e-5faac833a913', 'A really good submission', '2018-04-11 23:15:07', '73ea1e3a-4939-4406-bdca-0b39de674484', 2, 'Hey this is my edited abstract', '2018-04-12 05:33:55', NULL, 'N', 'Y', 4, 'fe512143-4794-4fd1-a7ce-63f949a3c73a'),
-('0ffc6fe0-6185-4ba0-844b-be14a67a2fc0', 'A test submission', '2018-04-11 23:07:54', '73ea1e3a-4939-4406-bdca-0b39de674484', 1, 'Test abstract', '2018-04-11 23:07:54', NULL, 'N', 'Y', 4, 'fe512143-4794-4fd1-a7ce-63f949a3c73a'),
+('0c6bd989-3974-4887-876e-5faac833a913', 'A really good submission', '2018-04-11 23:15:07', '73ea1e3a-4939-4406-bdca-0b39de674484', 2, 'Hey this is my edited abstract', '2018-04-12 05:33:55', NULL, 'N', 'N', 4, 'fe512143-4794-4fd1-a7ce-63f949a3c73a'),
+('0ffc6fe0-6185-4ba0-844b-be14a67a2fc0', 'A test submission', '2018-04-11 23:07:54', '73ea1e3a-4939-4406-bdca-0b39de674484', 1, 'Test abstract', '2018-04-11 23:07:54', NULL, 'Y', 'Y', 5, 'fe512143-4794-4fd1-a7ce-63f949a3c73a'),
 ('4154e5a4-b677-42eb-951d-f5557b0a769b', 'A test submission', '2018-04-11 23:08:11', '73ea1e3a-4939-4406-bdca-0b39de674484', 1, 'Test abstract', '2018-04-11 23:08:11', NULL, 'N', 'Y', 4, 'fe512143-4794-4fd1-a7ce-63f949a3c73a');
 
 -- --------------------------------------------------------
@@ -456,7 +471,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `middle_name`, `title`, `email`, `password`, `address1`, `address2`, `city`, `state`, `country`, `zipcode`, `affiliation`, `department`, `dob`, `is_participating`, `valid`, `is_active`) VALUES
 ('3d5baca6-845c-4d90-9501-49745b50909f', 'Venkat', 'Vyshak', 'BR', 'Mr', 'venkatvyshakbr@gmail.com', '$2a$10$vOXpDpoWuQXBYNCWarawWe3.HbvTNNosDwrbAG2WCAinDnSxWxmlS', '5485 55th St', '15B', 'San Diego', 'CA', 'US', 92115, 'SDSU', 'CS', '1992-04-27', 'N', 'Y', 'N'),
 ('538fc2a1-8883-45ef-ab1a-c4f2ae3c32b9', 'Sumukh', 'Sagar', 'Manjunath', 'Mr', 'sagar.sumukh@gmail.com', '$2a$10$0crjcA0V5MhpbL/auHGB8OxrJ6tZxLxYB1LvVVX9765CaIbKjdfUi', NULL, NULL, NULL, NULL, NULL, 0, 'SDSU', NULL, NULL, 'Y', 'Y', 'Y'),
-('73ea1e3a-4939-4406-bdca-0b39de674484', 'Pavan', 'Pasala', 'Kumar', 'Mr', 'pavanpkp33@gmail.com', '$2a$10$BTmOjmSHkJFfDA/bo4SfwunF5UEDn.uC.3lb8nnJF1V7HzBoq9DpG', '5485 55th St', '15B', 'San Diego', 'CA', 'US', 92115, 'SDSU', 'CS', '1992-04-27', 'N', 'Y', 'N'),
+('73ea1e3a-4939-4406-bdca-0b39de674484', 'Pavan', 'Pasala', 'Kumar', 'Mr', 'pavanpkp33@gmail.com', '$2a$10$BTmOjmSHkJFfDA/bo4SfwunF5UEDn.uC.3lb8nnJF1V7HzBoq9DpG', '5485 55th St', '15B', 'San Diego', 'CA', 'US', 92115, 'SDSU', 'CS', '1992-04-27', 'N', 'Y', 'Y'),
 ('8fca76c4-befa-416f-9af3-66d203170ab6', 'Niranjan', 'Hedge', 'Hedge', 'Mr', 'niranjanhegde1992@gmail.com', '$2a$10$6X01owxbPgD8kCd7WLlIB.tK1y8jfDJfs8kP3VFj7Y1/Z/6HJzy.6', NULL, NULL, NULL, NULL, NULL, 0, 'SDSU', NULL, NULL, 'Y', 'Y', 'Y'),
 ('SDSU-CMS-1', 'SDSU-CMS ADMIN', 'SDSU-CMS ADMIN', 'SDSU-CMS ADMIN', 'Mr', 'noreply.sdsucms@gmail.com', '$2a$10$CvAT1AWZ7F2mxOLl6a0IaOrRajLOTUQlrNPlxzIXYyME5DE.ciAFm', 'SDSU', 'SDSU', 'San Diego', 'CA', 'US', 92115, 'SDSU', 'CS', '1992-04-27', 'N', 'Y', 'Y');
 
@@ -576,12 +591,6 @@ ALTER TABLE `user_activation`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `assignment`
---
-ALTER TABLE `assignment`
-  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `file_type`
